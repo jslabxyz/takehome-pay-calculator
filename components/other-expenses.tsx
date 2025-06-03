@@ -12,12 +12,15 @@ import { Plus, Trash2 } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { NumericInput } from "@/components/ui/numeric-input"
 import { AIChat } from "@/components/ai-chat"
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
 
 export function OtherExpenses() {
   const { otherExpenses, addOtherExpense, removeOtherExpense, calculateResults } = useCalculatorStore()
   const [newLabel, setNewLabel] = useState("")
   const [newAmount, setNewAmount] = useState<number | null>(null)
   const [labelError, setLabelError] = useState<string | null>(null)
+  const [currency, setCurrency] = useState<'ZAR' | 'USD'>('ZAR')
+  const exchangeRate = 18.5
 
   // Reset form fields when otherExpenses is cleared
   useEffect(() => {
@@ -60,6 +63,8 @@ export function OtherExpenses() {
   }
 
   const totalOtherExpenses = otherExpenses.reduce((sum, expense) => sum + expense.amount, 0)
+
+  const handleCurrencyChange = (value: 'ZAR' | 'USD') => setCurrency(value)
 
   return (
     <>
@@ -108,13 +113,28 @@ export function OtherExpenses() {
                 <Label htmlFor="expenseAmount" className="text-sm sm:text-base">
                   Amount (ZAR)
                 </Label>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs">Currency:</span>
+                  <Select value={currency} onValueChange={handleCurrencyChange}>
+                    <SelectTrigger className="w-20 h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ZAR">ZAR</SelectItem>
+                      <SelectItem value="USD">USD</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <NumericInput
                   id="expenseAmount"
-                  value={newAmount}
-                  onValueChange={setNewAmount}
-                  placeholder="Enter amount"
+                  value={currency === 'USD' ? newAmount && newAmount > 0 ? +(newAmount / exchangeRate).toFixed(2) : null : newAmount}
+                  onValueChange={(value) => setNewAmount(currency === 'USD' && value !== null ? value * exchangeRate : value)}
+                  placeholder={`Enter amount in ${currency}`}
                   errorMessage="Please enter a valid amount"
                 />
+                {currency === 'USD' && newAmount && newAmount > 0 && (
+                  <div className="text-xs text-muted-foreground">Converted: {formatCurrency(newAmount)}</div>
+                )}
               </div>
             </div>
             <div className="flex items-end">

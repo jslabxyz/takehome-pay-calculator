@@ -1,10 +1,12 @@
 "use client"
 
+import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useCalculatorStore } from "@/lib/store"
 import { formatCurrency, formatPercentage } from "@/lib/utils"
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts"
 import { useMobile } from "@/hooks/use-mobile"
+import type { PieLabelRenderProps, LegendProps } from "recharts"
 
 export function Dashboard() {
   const {
@@ -36,6 +38,54 @@ export function Dashboard() {
     { name: "Utilities", value: dedUtilities },
     { name: "Internet", value: dedInternet },
   ]
+
+  // Custom label renderer for pie chart
+  const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: PieLabelRenderProps) => {
+    const RADIAN = Math.PI / 180;
+    const nCx = Number(cx);
+    const nCy = Number(cy);
+    const nOuterRadius = Number(outerRadius);
+    const nMidAngle = Number(midAngle);
+    const radius = nOuterRadius + 16;
+    const x = nCx + radius * Math.cos(-nMidAngle * RADIAN);
+    const y = nCy + radius * Math.sin(-nMidAngle * RADIAN);
+    return (
+      <text
+        x={x}
+        y={y}
+        fill={pieData[index ?? 0].color}
+        textAnchor={x > nCx ? 'start' : 'end'}
+        dominantBaseline="central"
+        fontSize={16}
+        fontWeight="bold"
+        style={{ textShadow: '0 1px 2px #fff' }}
+      >
+        {`${pieData[index ?? 0].name}: ${(percent! * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
+  // Custom legend renderer
+  const renderCustomLegend = (props: any): React.ReactElement => {
+    const { payload } = props;
+    return (
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {payload && payload.map((entry: any, index: number) => (
+          <li key={`item-${index}`} style={{ display: 'flex', alignItems: 'center', marginBottom: 8, fontSize: 15 }}>
+            <span style={{
+              display: 'inline-block',
+              width: 14,
+              height: 14,
+              borderRadius: '50%',
+              backgroundColor: entry.color,
+              marginRight: 8,
+            }} />
+            <span style={{ color: entry.color, fontWeight: 600 }}>{entry.value}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -98,9 +148,7 @@ export function Dashboard() {
                   outerRadius={isMobile ? 60 : 80}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) =>
-                    isMobile ? `${(percent * 100).toFixed(0)}%` : `${name}: ${(percent * 100).toFixed(0)}%`
-                  }
+                  label={renderCustomLabel}
                 >
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -108,6 +156,7 @@ export function Dashboard() {
                 </Pie>
                 <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                 <Legend
+                  content={renderCustomLegend}
                   layout={isMobile ? "horizontal" : "vertical"}
                   verticalAlign={isMobile ? "bottom" : "middle"}
                   align={isMobile ? "center" : "right"}

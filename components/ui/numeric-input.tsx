@@ -21,19 +21,18 @@ export function NumericInput({
   className,
   ...props
 }: NumericInputProps) {
-  const [inputValue, setInputValue] = useState<string>(value === null || value === 0 ? "" : value.toString())
+  const [inputValue, setInputValue] = useState<string>(value === null ? "" : value.toString())
   const [error, setError] = useState<string | null>(null)
 
   // Update internal state when external value changes
   useEffect(() => {
-    // Handle reset to zero or null
-    if (value === 0 || value === null) {
+    if (value === null) {
       setInputValue("")
       setError(null)
-    } else if (value.toString() !== inputValue && inputValue !== "") {
+    } else if (value.toString() !== inputValue) {
       setInputValue(value.toString())
     }
-  }, [value, inputValue])
+  }, [value])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value

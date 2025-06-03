@@ -6,8 +6,9 @@ import { useCalculatorStore } from "@/lib/store"
 import { InfoIcon as InfoCircle } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { NumericInput } from "@/components/ui/numeric-input"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { AIChat } from "@/components/ai-chat"
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
 
 export function InputForm() {
   const {
@@ -32,6 +33,9 @@ export function InputForm() {
     calculateResults,
   } = useCalculatorStore()
 
+  const [currency, setCurrency] = useState<'ZAR' | 'USD'>('ZAR')
+  const exchangeRate = 18.5
+
   // Force recalculation when component mounts or values change
   useEffect(() => {
     calculateResults()
@@ -48,8 +52,14 @@ export function InputForm() {
     calculateResults,
   ])
 
+  const handleCurrencyChange = (value: 'ZAR' | 'USD') => setCurrency(value)
+
   const handleValueChange = (setter: (value: number) => void) => (value: number | null) => {
-    setter(value ?? 0)
+    if (currency === 'USD' && value !== null) {
+      setter(value * exchangeRate)
+    } else {
+      setter(value ?? 0)
+    }
     calculateResults()
   }
 
@@ -79,12 +89,27 @@ export function InputForm() {
                     </Tooltip>
                   </TooltipProvider>
                 </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs">Currency:</span>
+                  <Select value={currency} onValueChange={handleCurrencyChange}>
+                    <SelectTrigger className="w-20 h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ZAR">ZAR</SelectItem>
+                      <SelectItem value="USD">USD</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <NumericInput
                   id="grossIncomeZAR"
-                  value={grossIncomeZAR}
+                  value={currency === 'USD' ? grossIncomeZAR && grossIncomeZAR > 0 ? +(grossIncomeZAR / exchangeRate).toFixed(2) : null : grossIncomeZAR}
                   onValueChange={handleValueChange(setGrossIncomeZAR)}
-                  placeholder="Enter amount"
+                  placeholder={`Enter amount in ${currency}`}
                 />
+                {currency === 'USD' && grossIncomeZAR && grossIncomeZAR > 0 && (
+                  <div className="text-xs text-muted-foreground">Converted: {formatCurrency(grossIncomeZAR)}</div>
+                )}
               </div>
 
               <div className="space-y-2">
