@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+  --chart-1: 221.2 83.2% 53.3%;
+  --chart-2: 142.1 76.2% 36.3%;
+  --chart-3: 346.8 77.2% 49.8%;
+  --chart-4: 43.3 96.4% 56.3%;
+  --chart-5: 262.1 83.3% 57.8%;
+
+  /* iOS safe areas */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
+  --chart-1: 217.2 91.2% 59.8%;
+  --chart-2: 142.1 70.6% 45.3%;
+  --chart-3: 346.8 77.2% 49.8%;
+  --chart-4: 43.3 96.4% 56.3%;
+  --chart-5: 262.1 83.3% 57.8%;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
+  overscroll-behavior-y: none; /* Prevent pull-to-refresh on iOS */
+}
+
+/* Remove increment/decrement arrows from number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* iOS-specific styles */
+@supports (-webkit-touch-callout: none) {
+  /* iOS-specific padding for safe areas */
+  main {
+    padding-top: calc(1rem + var(--safe-area-inset-top));
+    padding-right: calc(1rem + var(--safe-area-inset-right));
+    padding-bottom: calc(1rem + var(--safe-area-inset-bottom));
+    padding-left: calc(1rem + var(--safe-area-inset-left));
+  }
+
+  /* Fix for iOS momentum scrolling */
+  .overflow-auto,
+  .overflow-y-auto,
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text size adjustment on orientation change */
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .recharts-wrapper .recharts-legend-wrapper {
+    font-size: 10px;
+  }
+
+  .recharts-tooltip-wrapper {
+    font-size: 10px;
+  }
+
+  /* Improve touch targets for mobile */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  /* Improve tap targets */
+  label,
+  .label {
+    padding: 0.25rem 0;
+    display: inline-block;
+  }
+
+  /* Add space between form elements for easier tapping */
+  .space-y-2 > * {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+  }
+}
+
+/* Improve table responsiveness */
+.table-responsive {
+  overflow-x: auto;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Add iOS-style button active state */
+button:active {
+  opacity: 0.7;
+  transition: opacity 0.1s ease;
+}
+
+/* iOS-style card */
+.ios-card {
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* iOS-style bottom sheet */
+.ios-bottom-sheet {
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
