@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dashboard } from "@/components/dashboard"
@@ -9,13 +10,19 @@ import { OtherExpenses } from "@/components/other-expenses"
 import { Depreciation } from "@/components/depreciation"
 import { ExportOptions } from "@/components/export-options"
 import { ClearAllButton } from "@/components/clear-all-button"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { LayoutDashboard, FileInput, Receipt, CalculatorIcon, FileSpreadsheet } from "lucide-react"
+import { useCalculatorStore } from "@/lib/store"
 
 export function Calculator() {
   const [activeTab, setActiveTab] = useState("dashboard")
   const [swipeStart, setSwipeStart] = useState<number | null>(null)
   const [swipeEnd, setSwipeEnd] = useState<number | null>(null)
+  const { calculateResults } = useCalculatorStore()
+
+  useEffect(() => {
+    calculateResults()
+  }, [calculateResults])
 
   // Handle tab changes from URL parameters
   useEffect(() => {
