@@ -9,6 +9,7 @@ import { NumericInput } from "@/components/ui/numeric-input"
 import { useEffect, useState } from "react"
 import { AIChat } from "@/components/ai-chat"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
+import { useExchangeRate } from "@/hooks/use-exchange-rate"
 
 export function InputForm() {
   const {
@@ -33,8 +34,8 @@ export function InputForm() {
     calculateResults,
   } = useCalculatorStore()
 
+  const { exchangeRate } = useExchangeRate()
   const [currency, setCurrency] = useState<'ZAR' | 'USD'>('ZAR')
-  const exchangeRate = 18.5
 
   // Force recalculation when component mounts or values change
   useEffect(() => {
