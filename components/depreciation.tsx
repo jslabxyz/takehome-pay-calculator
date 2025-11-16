@@ -13,14 +13,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { NumericInput } from "@/components/ui/numeric-input"
 import { AIChat } from "@/components/ai-chat"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
+import { useExchangeRate } from "@/hooks/use-exchange-rate"
 
 export function Depreciation() {
   const { depreciation, addDepreciation, removeDepreciation, calculateResults } = useCalculatorStore()
+  const { exchangeRate } = useExchangeRate()
   const [newLabel, setNewLabel] = useState("")
   const [newAmount, setNewAmount] = useState<number | null>(null)
   const [labelError, setLabelError] = useState<string | null>(null)
   const [currency, setCurrency] = useState<'ZAR' | 'USD'>('ZAR')
-  const exchangeRate = 18.5
 
   // Reset form fields when depreciation is cleared
   useEffect(() => {
