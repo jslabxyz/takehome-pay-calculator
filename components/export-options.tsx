@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { useCalculatorStore } from "@/lib/store"
 import { Download, FileSpreadsheet, FileIcon as FilePdf } from "lucide-react"
-import { utils } from "xlsx"
+import { utils, write } from "xlsx"
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib"
 import { formatCurrency, formatPercentage } from "@/lib/utils"
 import { useMobile } from "@/hooks/use-mobile"
@@ -82,7 +82,7 @@ export function ExportOptions() {
     }
 
     // Generate Excel file as an array buffer
-    const excelBuffer = utils.write(wb, { bookType: "xlsx", type: "array" })
+    const excelBuffer = write(wb, { bookType: "xlsx", type: "array" })
 
     // Create a Blob from the buffer
     const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
@@ -114,7 +114,7 @@ export function ExportOptions() {
     let y = 800 // Start from top
 
     // Helper function to add text
-    const addText = (text, isBold = false, x = margin) => {
+    const addText = (text: string, isBold = false, x = margin) => {
       const selectedFont = isBold ? boldFont : font
       page.drawText(text, {
         x,
@@ -182,7 +182,7 @@ export function ExportOptions() {
     const pdfBytes = await pdfDoc.save()
 
     // Create a blob and download
-    const blob = new Blob([pdfBytes], { type: "application/pdf" })
+    const blob = new Blob([pdfBytes as BlobPart], { type: "application/pdf" })
     const link = document.createElement("a")
     link.href = URL.createObjectURL(blob)
     link.download = "geld-calculator.pdf"

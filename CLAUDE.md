@@ -6,8 +6,8 @@ Take-Home Pay Calculator — a Next.js web app for South African contractors to 
 
 ## Tech Stack
 
-- **Framework:** Next.js 15.2.4, React 18, TypeScript 5
-- **Styling:** Tailwind CSS 3.4 (dark mode via class strategy), shadcn/ui (Radix UI primitives)
+- **Framework:** Next.js 16, React 19, TypeScript 5
+- **Styling:** Tailwind CSS 4 (CSS-first config, dark mode via custom variant), shadcn/ui (Radix UI primitives)
 - **State:** Zustand (single store in `lib/store.ts` with all calculation logic)
 - **Charts:** Recharts
 - **Forms:** React Hook Form + Zod validation
@@ -17,11 +17,11 @@ Take-Home Pay Calculator — a Next.js web app for South African contractors to 
 ## Commands
 
 ```bash
-pnpm dev          # Start dev server
-pnpm build        # Production build
-pnpm lint         # Run ESLint (next lint)
-pnpm start        # Run production server
-npx vitest run    # Run tests (no script in package.json)
+npm run dev       # Start dev server (Turbopack)
+npm run build     # Production build (Turbopack)
+npm run lint      # Run ESLint (next lint)
+npm run start     # Run production server
+npm test          # Run tests (vitest)
 ```
 
 ## Project Structure
@@ -30,7 +30,7 @@ npx vitest run    # Run tests (no script in package.json)
 app/                  # Next.js App Router
   layout.tsx          # Root layout (metadata, viewport, theme provider)
   page.tsx            # Home page (renders Calculator component)
-  globals.css         # Global styles + Tailwind directives
+  globals.css         # Global styles + Tailwind v4 theme (CSS-first config)
 components/           # Feature components
   calculator.tsx      # Main 5-tab calculator interface
   input-form.tsx      # Income & deduction inputs
@@ -58,7 +58,7 @@ public/               # Static assets, PWA manifest, service worker
 - **All calculation logic lives in `lib/store.ts`** — tax brackets, medical credits, deductions, and derived values are computed in the Zustand store's `calculateResults()` method. Do not duplicate this logic elsewhere.
 - **Components use `"use client"` directive** — this is a client-side interactive app.
 - **Path alias:** `@/*` maps to the project root (configured in tsconfig.json).
-- **Build config:** TypeScript and ESLint errors are ignored during builds (`next.config.mjs`).
+- **Build config:** Strict builds (TypeScript and ESLint errors must be fixed). Optimized for Vercel deployment.
 - **shadcn/ui components in `components/ui/`** are auto-generated — avoid hand-editing these files.
 
 ## Code Conventions
@@ -71,10 +71,11 @@ public/               # Static assets, PWA manifest, service worker
 
 ## Testing
 
-Tests use Vitest with jsdom/happy-dom. Run with `npx vitest run`. Test files live in `__tests__/` and import directly from `lib/store.ts`. When modifying tax calculations, update corresponding tests in `calculator.test.ts`.
+Tests use Vitest with jsdom. Run with `npm test`. Test files live in `__tests__/` and import directly from `lib/store.ts`. When modifying tax calculations, update corresponding tests in `calculator.test.ts`.
 
 ## Common Tasks
 
 - **Adding a new deduction:** Add state field + setter to `CalculatorState` interface in `lib/store.ts`, include in `calculateResults()`, add UI input in `components/input-form.tsx`.
 - **Updating tax brackets:** Modify the bracket arrays in the `calculateResults()` function in `lib/store.ts`.
-- **Adding a new UI component:** Use `npx shadcn-ui@latest add <component>` for shadcn/ui primitives, or create feature components in `components/`.
+- **Adding a new UI component:** Use `npx shadcn@latest add <component>` for shadcn/ui primitives, or create feature components in `components/`.
+- **Tailwind theme:** All theme colors and design tokens are defined in `app/globals.css` using `@theme inline` (no `tailwind.config.ts`).
