@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "echo '--- Session Health Check ---' && npm test 2>&1 | tail -5 && echo '--- Build Check ---' && npm run build 2>&1 | tail -5 && echo '--- Health check complete ---'"
+      }
+    ]
+  }
+}
