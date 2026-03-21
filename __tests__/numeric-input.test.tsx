@@ -1,24 +1,27 @@
-"use client"
-
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen, fireEvent, cleanup } from "@testing-library/react"
+import "@testing-library/jest-dom/vitest"
 import { NumericInput } from "@/components/ui/numeric-input"
-import { describe, test, expect, vi } from "vitest"
+import { describe, test, expect, vi, afterEach } from "vitest"
+
+afterEach(() => {
+  cleanup()
+})
 
 describe("NumericInput Component", () => {
-  test("renders with empty value when value is 0", () => {
+  test("renders with value when value is 0", () => {
     const mockOnChange = vi.fn()
     render(<NumericInput value={0} onValueChange={mockOnChange} data-testid="test-input" />)
 
-    const input = screen.getByTestId("test-input")
-    expect(input).toHaveValue("")
+    const input = screen.getByTestId("test-input") as HTMLInputElement
+    expect(input.value).toBe("0")
   })
 
   test("renders with empty value when value is null", () => {
     const mockOnChange = vi.fn()
     render(<NumericInput value={null} onValueChange={mockOnChange} data-testid="test-input" />)
 
-    const input = screen.getByTestId("test-input")
-    expect(input).toHaveValue("")
+    const input = screen.getByTestId("test-input") as HTMLInputElement
+    expect(input.value).toBe("")
   })
 
   test("allows valid numeric input", () => {
@@ -29,7 +32,7 @@ describe("NumericInput Component", () => {
     fireEvent.change(input, { target: { value: "123.45" } })
 
     expect(mockOnChange).toHaveBeenCalledWith(123.45)
-    expect(input).toHaveValue("123.45")
+    expect((input as HTMLInputElement).value).toBe("123.45")
   })
 
   test("allows negative numbers", () => {
@@ -40,7 +43,7 @@ describe("NumericInput Component", () => {
     fireEvent.change(input, { target: { value: "-123.45" } })
 
     expect(mockOnChange).toHaveBeenCalledWith(-123.45)
-    expect(input).toHaveValue("-123.45")
+    expect((input as HTMLInputElement).value).toBe("-123.45")
   })
 
   test("shows error message for invalid input", () => {

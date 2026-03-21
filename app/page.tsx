@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import Image from "next/image"
 import { Calculator } from "@/components/calculator"
 

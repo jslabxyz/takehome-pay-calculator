@@ -1,33 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222.2 84% 4.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222.2 84% 4.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222.2 84% 4.9%);
+  --primary: hsl(221.2 83.2% 53.3%);
+  --primary-foreground: hsl(210 40% 98%);
+  --secondary: hsl(210 40% 96.1%);
+  --secondary-foreground: hsl(222.2 47.4% 11.2%);
+  --muted: hsl(210 40% 96.1%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+  --accent: hsl(210 40% 96.1%);
+  --accent-foreground: hsl(222.2 47.4% 11.2%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(214.3 31.8% 91.4%);
+  --ring: hsl(221.2 83.2% 53.3%);
   --radius: 0.5rem;
-  --chart-1: 221.2 83.2% 53.3%;
-  --chart-2: 142.1 76.2% 36.3%;
-  --chart-3: 346.8 77.2% 49.8%;
-  --chart-4: 43.3 96.4% 56.3%;
-  --chart-5: 262.1 83.3% 57.8%;
+  --chart-1: hsl(221.2 83.2% 53.3%);
+  --chart-2: hsl(142.1 76.2% 36.3%);
+  --chart-3: hsl(346.8 77.2% 49.8%);
+  --chart-4: hsl(43.3 96.4% 56.3%);
+  --chart-5: hsl(262.1 83.3% 57.8%);
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(222.2 84% 4.9%);
+  --sidebar-primary: hsl(221.2 83.2% 53.3%);
+  --sidebar-primary-foreground: hsl(210 40% 98%);
+  --sidebar-accent: hsl(210 40% 96.1%);
+  --sidebar-accent-foreground: hsl(222.2 47.4% 11.2%);
+  --sidebar-border: hsl(214.3 31.8% 91.4%);
+  --sidebar-ring: hsl(221.2 83.2% 53.3%);
 
   /* iOS safe areas */
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
@@ -37,40 +46,88 @@
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 48%;
-  --chart-1: 217.2 91.2% 59.8%;
-  --chart-2: 142.1 70.6% 45.3%;
-  --chart-3: 346.8 77.2% 49.8%;
-  --chart-4: 43.3 96.4% 56.3%;
-  --chart-5: 262.1 83.3% 57.8%;
+  --background: hsl(222.2 84% 4.9%);
+  --foreground: hsl(210 40% 98%);
+  --card: hsl(222.2 84% 4.9%);
+  --card-foreground: hsl(210 40% 98%);
+  --popover: hsl(222.2 84% 4.9%);
+  --popover-foreground: hsl(210 40% 98%);
+  --primary: hsl(217.2 91.2% 59.8%);
+  --primary-foreground: hsl(222.2 47.4% 11.2%);
+  --secondary: hsl(217.2 32.6% 17.5%);
+  --secondary-foreground: hsl(210 40% 98%);
+  --muted: hsl(217.2 32.6% 17.5%);
+  --muted-foreground: hsl(215 20.2% 65.1%);
+  --accent: hsl(217.2 32.6% 17.5%);
+  --accent-foreground: hsl(210 40% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: hsl(217.2 32.6% 17.5%);
+  --input: hsl(217.2 32.6% 17.5%);
+  --ring: hsl(224.3 76.3% 48%);
+  --chart-1: hsl(217.2 91.2% 59.8%);
+  --chart-2: hsl(142.1 70.6% 45.3%);
+  --chart-3: hsl(346.8 77.2% 49.8%);
+  --chart-4: hsl(43.3 96.4% 56.3%);
+  --chart-5: hsl(262.1 83.3% 57.8%);
+  --sidebar: hsl(217.2 32.6% 11%);
+  --sidebar-foreground: hsl(210 40% 98%);
+  --sidebar-primary: hsl(217.2 91.2% 59.8%);
+  --sidebar-primary-foreground: hsl(222.2 47.4% 11.2%);
+  --sidebar-accent: hsl(217.2 32.6% 17.5%);
+  --sidebar-accent-foreground: hsl(210 40% 98%);
+  --sidebar-border: hsl(217.2 32.6% 17.5%);
+  --sidebar-ring: hsl(224.3 76.3% 48%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 * {
-  @apply border-border;
+  border-color: var(--border);
 }
 
 body {
-  @apply bg-background text-foreground;
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
-  overscroll-behavior-y: none; /* Prevent pull-to-refresh on iOS */
+  background-color: var(--background);
+  color: var(--foreground);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
 }
 
 /* Remove increment/decrement arrows from number inputs */
@@ -86,7 +143,6 @@ input[type="number"] {
 
 /* iOS-specific styles */
 @supports (-webkit-touch-callout: none) {
-  /* iOS-specific padding for safe areas */
   main {
     padding-top: calc(1rem + var(--safe-area-inset-top));
     padding-right: calc(1rem + var(--safe-area-inset-right));
@@ -94,14 +150,12 @@ input[type="number"] {
     padding-left: calc(1rem + var(--safe-area-inset-left));
   }
 
-  /* Fix for iOS momentum scrolling */
   .overflow-auto,
   .overflow-y-auto,
   .overflow-x-auto {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Prevent text size adjustment on orientation change */
   html {
     -webkit-text-size-adjust: 100%;
   }
@@ -117,7 +171,6 @@ input[type="number"] {
     font-size: 10px;
   }
 
-  /* Improve touch targets for mobile */
   button,
   a,
   [role="button"] {
@@ -128,17 +181,15 @@ input[type="number"] {
   input,
   select,
   textarea {
-    font-size: 16px; /* Prevents iOS zoom on focus */
+    font-size: 16px;
   }
 
-  /* Improve tap targets */
   label,
   .label {
     padding: 0.25rem 0;
     display: inline-block;
   }
 
-  /* Add space between form elements for easier tapping */
   .space-y-2 > * {
     margin-top: 0.625rem;
     margin-bottom: 0.625rem;
@@ -154,7 +205,7 @@ input[type="number"] {
   padding-right: 1rem;
 }
 
-/* Add iOS-style button active state */
+/* iOS-style active state */
 button:active {
   opacity: 0.7;
   transition: opacity 0.1s ease;

@@ -1,62 +1,53 @@
-import React from "react"
 import { useCalculatorStore } from "@/lib/store"
-import { act } from "react-dom/test-utils"
-import { describe, test, expect, vi, beforeEach } from "vitest"
+import { describe, test, expect, beforeEach } from "vitest"
+
+const getStore = () => useCalculatorStore.getState()
 
 describe("Clear All Functionality", () => {
   beforeEach(() => {
-    // Reset the store before each test
-    const store = useCalculatorStore.getState()
-    act(() => {
-      store.clearAll()
-    })
+    getStore().clearAll()
   })
 
   test("should reset all values to defaults", () => {
-    const store = useCalculatorStore.getState()
-
     // Set some values
-    act(() => {
-      store.setGrossIncomeZAR(50000)
-      store.setRetirementContribution(5000)
-      store.setMedicalBeneficiaries(2)
-      store.setRent(12000)
-      store.setApartmentSizeSqm(100)
-      store.setOfficeSizeSqm(15)
-      store.setUtilities(2000)
-      store.setInternet(1000)
-      store.setDonationsToPBO(500)
+    getStore().setGrossIncomeZAR(50000)
+    getStore().setRetirementContribution(5000)
+    getStore().setMedicalBeneficiaries(2)
+    getStore().setRent(12000)
+    getStore().setApartmentSizeSqm(100)
+    getStore().setOfficeSizeSqm(15)
+    getStore().setUtilities(2000)
+    getStore().setInternet(1000)
+    getStore().setDonationsToPBO(500)
 
-      // Add some other expenses
-      store.addOtherExpense({
-        id: "1",
-        label: "Test Expense",
-        amount: 1000,
-      })
-
-      // Add some depreciation items
-      store.addDepreciation({
-        id: "1",
-        label: "Test Depreciation",
-        amount: 500,
-      })
-
-      // Calculate results
-      store.calculateResults()
+    // Add some other expenses
+    getStore().addOtherExpense({
+      id: "1",
+      label: "Test Expense",
+      amount: 1000,
     })
+
+    // Add some depreciation items
+    getStore().addDepreciation({
+      id: "1",
+      label: "Test Depreciation",
+      amount: 500,
+    })
+
+    // Calculate results
+    getStore().calculateResults()
 
     // Verify values were set
-    expect(store.grossIncomeZAR).toBe(50000)
-    expect(store.otherExpenses.length).toBe(1)
-    expect(store.depreciation.length).toBe(1)
-    expect(store.totalDeductions).toBeGreaterThan(0)
+    expect(getStore().grossIncomeZAR).toBe(50000)
+    expect(getStore().otherExpenses.length).toBe(1)
+    expect(getStore().depreciation.length).toBe(1)
+    expect(getStore().totalDeductions).toBeGreaterThan(0)
 
     // Clear all values
-    act(() => {
-      store.clearAll()
-    })
+    getStore().clearAll()
 
     // Verify all values were reset
+    const store = getStore()
     expect(store.grossIncomeZAR).toBe(0)
     expect(store.retirementContribution).toBe(0)
     expect(store.medicalBeneficiaries).toBe(0)
@@ -76,35 +67,15 @@ describe("Clear All Functionality", () => {
     expect(store.effectiveRate).toBe(0)
   })
 
-  test("should update UI components after clearing", async () => {
-    // This would be a more comprehensive test in a real testing environment
-    // with proper DOM rendering and component testing
-    const mockSetState = vi.fn()
-    const originalSetState = React.useState
-
-    // Mock React.useState to track state updates
-    vi.spyOn(React, "useState").mockImplementation((initialState) => {
-      return [initialState, mockSetState]
-    })
-
-    const store = useCalculatorStore.getState()
-
+  test("should update UI components after clearing", () => {
     // Set some values
-    act(() => {
-      store.setGrossIncomeZAR(50000)
-      store.calculateResults()
-    })
+    getStore().setGrossIncomeZAR(50000)
+    getStore().calculateResults()
 
     // Clear all values
-    act(() => {
-      store.clearAll()
-    })
+    getStore().clearAll()
 
-    // In a real test, we would check if the UI components were updated
-    // For now, we'll just verify the store was reset
-    expect(store.grossIncomeZAR).toBe(0)
-
-    // Restore the original implementation
-    vi.spyOn(React, "useState").mockRestore()
+    // Verify the store was reset
+    expect(getStore().grossIncomeZAR).toBe(0)
   })
 })

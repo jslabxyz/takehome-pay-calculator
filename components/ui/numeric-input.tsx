@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 
-interface NumericInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface NumericInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> {
   onValueChange: (value: number | null) => void
   value: number | null
   allowEmpty?: boolean

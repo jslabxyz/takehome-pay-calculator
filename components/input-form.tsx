@@ -9,6 +9,7 @@ import { NumericInput } from "@/components/ui/numeric-input"
 import { useEffect, useState } from "react"
 import { AIChat } from "@/components/ai-chat"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
+import { formatCurrency } from "@/lib/utils"
 
 export function InputForm() {
   const {

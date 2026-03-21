@@ -1,9 +1,7 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
+import { GeistSans } from "geist/font/sans"
 import "./globals.css"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "JS Labs: Geld Calculator",
@@ -18,7 +16,7 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "JS Labs: Geld Calculator",
   },
-    generator: 'v0.dev'
+    generator: 'Next.js'
 }
 
 export const viewport: Viewport = {
@@ -41,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={inter.className}>
+      <body className={GeistSans.className}>
         {children}
       </body>
     </html>
