@@ -47,9 +47,12 @@ lib/
   store.ts            # Zustand store — ALL state + tax calculation logic
   utils.ts            # cn(), formatCurrency(), formatPercentage()
 __tests__/            # Vitest test suites
-  calculator.test.ts  # Tax bracket & deduction calculations
-  clear-all.test.ts   # Reset functionality
-  numeric-input.test.ts  # Input validation
+  calculator.test.ts       # Tax bracket & deduction calculations
+  clear-all.test.ts        # Reset functionality
+  numeric-input.test.tsx   # Input validation (component)
+  store-expenses.test.ts   # Expenses, depreciation, office fraction
+  currency-conversion.test.ts  # USD/ZAR conversion & integration
+  dashboard.test.tsx       # Dashboard rendering & metrics
 public/               # Static assets, PWA manifest, service worker
 ```
 
@@ -79,3 +82,11 @@ Tests use Vitest with jsdom. Run with `npm test`. Test files live in `__tests__/
 - **Updating tax brackets:** Modify the bracket arrays in the `calculateResults()` function in `lib/store.ts`.
 - **Adding a new UI component:** Use `npx shadcn@latest add <component>` for shadcn/ui primitives, or create feature components in `components/`.
 - **Tailwind theme:** All theme colors and design tokens are defined in `app/globals.css` using `@theme inline` (no `tailwind.config.ts`).
+
+## Workflow
+
+- **Large refactors:** Break into phases — research, plan, implement, validate, document. Use the `/refactor-plan` skill for guided refactoring.
+- **Before committing:** Always run `npm test` and `npm run build` to catch issues.
+- **Session start hook:** Automatically runs tests and build check at the start of each Claude Code session (configured in `.claude/settings.json`).
+- **Dependencies:** Always pin to specific version ranges (`^x.y.z`), never use `"latest"`.
+- **Strict builds:** TypeScript and ESLint errors must be fixed — do not use `ignoreBuildErrors` or `ignoreDuringBuilds`.
